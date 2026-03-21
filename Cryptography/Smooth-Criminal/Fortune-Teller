@@ -1,0 +1,53 @@
+# CTF Writeup: Fortune Teller
+
+## Problem
+
+We are given a Linear Congruential Generator (LCG):
+x_(n+1) = (a * x_n + c) % m
+
+Where:
+- `m = 2^32 = 4294967296`
+- `a` and `c` are unknown
+
+  output_1 = 4176616824
+  output_2 = 2681459949
+  output_3 = 1541137174
+  output_4 = 3272915523
+
+2️. Recover a
+
+Subtract two equations:
+
+𝑥2=𝑎𝑥1+𝑐
+x3=ax2+c
+
+Substract:
+          x3-x2=a(x2-x1)(mod m)
+          a=(x3-x2)(x2-x1)^(-1)(mod m)
+Result:
+a = 3355924837
+c = 2915531925
+
+
+Computing next output:
+x5 = 1233863684
+
+
+Hex:
+0x498b4404
+
+Use it as the XOR key
+
+The problem says:
+
+output_5 is used as a 4-byte repeating key
+
+Key bytes:
+49 8b 44 04
+
+Ciphertext:
+3cff226828ec3f743bb820352aff1b7021b81b623cff31767ad428672ef6
+
+Decrypted plaintext:
+utflag{pr3d1ct_th3_futur3_lcg}​
+
