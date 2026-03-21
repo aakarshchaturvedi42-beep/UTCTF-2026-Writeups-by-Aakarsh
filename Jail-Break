@@ -1,0 +1,33 @@
+#  PyJail Escape Writeup
+
+##  Challenge Description
+
+We are given a restricted Python execution environment (PyJail):
+
+- Dangerous keywords are blacklisted
+- Only limited builtins are allowed
+- A hidden function `_secret()` exists in the global scope
+
+### Restricted Keywords
+
+
+---
+
+## Given Code (Relevant Part)
+
+```python
+_ENC = [0x37, 0x36, 0x24, 0x2e, 0x23, 0x25, 0x39, 0x32, 0x3b, 0x1d, 0x28, 0x23, 0x73, 0x2e, 0x1d, 0x71, 0x31, 0x21, 0x76, 0x32, 0x71, 0x1d, 0x2f, 0x76, 0x31, 0x36, 0x71, 0x30, 0x3f]
+_KEY = 0x42
+
+def _secret():
+    return ''.join(chr(b ^ _KEY) for b in _ENC)
+
+The flag comes from:
+''.join(chr(b ^ _KEY) for b in _ENC)
+
+with _KEY = 0x42.
+So compute each value in _ENC XOR 0x42.
+
+Continuing for the whole list gives:
+                            "utflag{py_ja1l_3sc4p3_m4st3r}"
+
